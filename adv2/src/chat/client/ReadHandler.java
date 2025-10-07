@@ -3,12 +3,13 @@ package chat.client;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import static Util.MyLogger.log;
+import static util.MyLogger.log;
 
 public class ReadHandler implements Runnable{
+
     private final DataInputStream input;
     private final Client client;
-    public boolean closed = false;
+    private boolean closed = false;
 
     public ReadHandler(DataInputStream input, Client client) {
         this.input = input;
@@ -19,21 +20,22 @@ public class ReadHandler implements Runnable{
     public void run() {
         try{
             while(true){
-                String received =input.readUTF();
+                String received = input.readUTF();
                 System.out.println(received);
             }
         } catch (IOException e) {
             log(e);
-        }finally {
+        }finally{
             client.close();
         }
     }
 
     public synchronized void close(){
-        if (closed){
+        if(closed){
             return;
         }
-        closed = true;
+
+        closed=true;
         log("readHandler 종료");
     }
 }

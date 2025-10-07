@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import static Util.MyLogger.log;
+import static util.MyLogger.log;
 
 public class SocketCloseUtil {
     public static void closeAll(Socket socket, InputStream input, OutputStream output){

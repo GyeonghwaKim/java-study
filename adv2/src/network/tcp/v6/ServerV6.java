@@ -1,12 +1,10 @@
 package network.tcp.v6;
 
-import network.tcp.v5.SessionV5;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import static Util.MyLogger.log;
+import static util.MyLogger.log;
 
 public class ServerV6 {
     private static final int PORT = 12345;

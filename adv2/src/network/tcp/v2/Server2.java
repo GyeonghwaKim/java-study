@@ -5,9 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
-import static Util.MyLogger.log;
+import static util.MyLogger.log;
 
 public class Server2 {
     private static final int PORT=12345;

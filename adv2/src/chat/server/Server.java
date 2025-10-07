@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import static Util.MyLogger.log;
+import static util.MyLogger.log;
 
-public class Server {
+public class Server{
     private final int port;
     private final CommandManager commandManager;
     private final SessionManager sessionManager;
@@ -20,11 +20,29 @@ public class Server {
     }
 
     public void start() throws IOException{
-        log("서버 시작: "+ commandManager.getClass());
-        serverSocket= new ServerSocket(port);
-        log("서버 소켓 시작 - 리스닝 포트: "+ port);
-
+        log("서버 시작: " + commandManager.getClass());
+        serverSocket = new ServerSocket(port);
+        log("서버 소켓 시작 - 리스닝 포트: " + port);
+        
         addShutdownHook();
+        running();
+    }
+
+    private void running() {
+
+        try {
+            while (true){
+                Socket socket = serverSocket.accept(); // 블로킹
+                log("소켓 연결: " + socket);
+
+                Session session = new Session(sessionManager, commandManager, socket);
+                Thread thread = new Thread(session);
+                thread.start();
+
+            }
+        } catch (IOException e) {
+            log("서버 소캣 종료: "+e);
+        }
     }
 
     private void addShutdownHook() {
@@ -32,23 +50,7 @@ public class Server {
         Runtime.getRuntime().addShutdownHook(new Thread(target,"shutdown"));
     }
 
-    private void running(){
-        try{
-            while(true){
-                Socket socket = serverSocket.accept();
-                log("소켓 연결: "+ socket);
-                Session session = new Session(sessionManager, commandManager, socket);
-                Thread thread = new Thread(session);
-                thread.start();
-            }
-        } catch (IOException e) {
-            log("서버 소캣 종료: " + e);
-        }
-    }
-
-
-    static class ShutdownHook implements Runnable{
-
+    static class ShutdownHook implements Runnable {
         private final ServerSocket serverSocket;
         private final SessionManager sessionManager;
 
@@ -60,19 +62,15 @@ public class Server {
         @Override
         public void run() {
             log("shutdownHook 실행");
-
-
             try {
                 sessionManager.closeAll();
                 serverSocket.close();
 
                 Thread.sleep(1000);
             } catch (Exception e) {
-               e.printStackTrace();
+                e.printStackTrace();
                 System.out.println("e = "+e);
             }
-
         }
     }
-
 }

@@ -1,14 +1,12 @@
 package network.tcp.v5;
 
-import network.tcp.SocketCloseUtil;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
-import static Util.MyLogger.log;
+import static util.MyLogger.log;
 
 public class ClientV5 {
 //serverV4하기

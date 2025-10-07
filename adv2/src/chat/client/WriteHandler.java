@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import static Util.MyLogger.log;
+import static util.MyLogger.log;
 
 public class WriteHandler implements Runnable {
 
@@ -25,8 +25,9 @@ public class WriteHandler implements Runnable {
     public void run() {
         Scanner scanner = new Scanner(System.in);
         try {
-            String username = inputUserName(scanner);
+            String username = inputUsername(scanner);
             output.writeUTF("/join" + DELIMITER + username);
+
             while (true) {
                 String toSend = scanner.nextLine();
                 if (toSend.isEmpty()) {
@@ -36,36 +37,37 @@ public class WriteHandler implements Runnable {
                     output.writeUTF(toSend);
                     break;
                 }
-
                 if (toSend.startsWith("/")) {
                     output.writeUTF(toSend);
                 } else {
                     output.writeUTF("/message" + DELIMITER + toSend);
                 }
             }
+
         } catch (IOException | NoSuchElementException e) {
             log(e);
         } finally {
             client.close();
         }
+
     }
 
-    private String inputUserName(Scanner scanner) {
+    private static String inputUsername(Scanner scanner) {
         System.out.println("이름을 입력하세요.");
         String username;
-        do{
+        do {
             username = scanner.nextLine();
-        }while (username.isEmpty());
+        }
+        while (username.isEmpty());
         return username;
     }
 
-    public synchronized void close(){
-        if(closed){
+    public synchronized void close() {
+        if (closed) {
             return;
         }
-
-        try{
-            System.in.close();
+        try {
+            System.in.close(); // Scanner 입력 중지 (사용자의 입력을 닫음)
         } catch (IOException e) {
             log(e);
         }

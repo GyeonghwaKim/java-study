@@ -3,7 +3,7 @@ package network.exception.connect.close.nomal;
 import java.io.*;
 import java.net.Socket;
 
-import static Util.MyLogger.log;
+import static util.MyLogger.log;
 
 public class NormalCloseClient {
     public static void main(String[] args) throws IOException,InterruptedException{

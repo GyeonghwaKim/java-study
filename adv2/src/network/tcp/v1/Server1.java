@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import static Util.MyLogger.log;
+import static util.MyLogger.log;
 
 public class Server1 {
     private static final int PORT=12345;

@@ -1,15 +1,15 @@
 package chat.server;
 
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import static Util.MyLogger.log;
-import static network.tcp.SocketCloseUtil.closeAll;
+import static network2.tcp.SocketCloseUtil.closeAll;
+import static util.MyLogger.log;
 
 public class Session implements Runnable{
-
     private final Socket socket;
     private final DataInputStream input;
     private final DataOutputStream output;
@@ -20,12 +20,13 @@ public class Session implements Runnable{
     private String username;
 
     public Session(SessionManager sessionManager, CommandManager commandManager, Socket socket) throws IOException {
-        this.sessionManager = sessionManager;
-        this.sessionManager.add(this);
-        this.commandManager = commandManager;
         this.socket = socket;
         this.input = new DataInputStream(socket.getInputStream());
-        this.output=new DataOutputStream(socket.getOutputStream());
+        this.output = new DataOutputStream(socket.getOutputStream());
+        this.commandManager = commandManager;
+        this.sessionManager = sessionManager;
+        this.sessionManager.add(this);
+
     }
 
     @Override
@@ -33,33 +34,33 @@ public class Session implements Runnable{
         try{
             while(true){
                 String received = input.readUTF();
-                log("client -> server: "+ received);
-                commandManager.execute(received,this);
+                log("client -> server: " + received);
+                commandManager.execute(received, this);
             }
         } catch (IOException e) {
             log(e);
         }finally {
             sessionManager.remove(this);
-            sessionManager.sendAll(username + "님이 퇴장했습니다.");
+            sessionManager.sendAll(username +"님이 퇴장했습니다");
             close();
         }
     }
 
-    public void send(String message) throws IOException{
-        log("server -> client: "+message);
-        output.writeUTF(message);
+    public void send(String msg) throws IOException{
+        log("server -> client: " + msg);
+        output.writeUTF(msg);
     }
 
-    public synchronized void close(){
-        if(closed){
+    public synchronized void close() {
+        if (closed) {
             return;
         }
-        closeAll(socket,input,output);
-        closed=true;
-        log("연결 종료: "+socket);
+        closeAll(socket, input, output);
+        closed = true;
+        log("연결 종료: " + socket);
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return username;
     }
 

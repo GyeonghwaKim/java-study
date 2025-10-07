@@ -3,7 +3,6 @@ package chat.server;
 import java.io.IOException;
 
 public class CommandManagerV1 implements CommandManager{
-
     private final SessionManager sessionManager;
 
     public CommandManagerV1(SessionManager sessionManager) {
@@ -15,7 +14,6 @@ public class CommandManagerV1 implements CommandManager{
         if(totalMessage.startsWith("/exit")){
             throw new IOException("exit");
         }
-
         sessionManager.sendAll(totalMessage);
     }
 }

@@ -5,9 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.SocketTimeoutException;
 
-import static Util.MyLogger.log;
+import static util.MyLogger.log;
 
 public class ResetCloseClient {
     public static void main(String[] args)  throws IOException,

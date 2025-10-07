@@ -3,13 +3,13 @@ package chat.server;
 import java.io.IOException;
 
 public class ServerMain {
-
-    private static final int PORT=12345;
+    private static final int PORT = 12345;
 
     public static void main(String[] args) throws IOException {
         SessionManager sessionManager = new SessionManager();
 
-        CommandManager commandManager = new CommandManagerV1(sessionManager);
+       // CommandManagerV1 commandManager = new CommandManagerV1(sessionManager);
+        CommandManagerV2 commandManager = new CommandManagerV2(sessionManager);
 
         Server server = new Server(PORT, commandManager, sessionManager);
         server.start();
