@@ -9,7 +9,7 @@ import static util.MyLogger.log;
 
 public class WriteHandler implements Runnable {
 
-    private static final String DELIMITER = " | ";
+    private static final String DELIMITER = "|";
 
     private final DataOutputStream output;
     private final Client client;

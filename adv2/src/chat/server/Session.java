@@ -6,7 +6,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import static network2.tcp.SocketCloseUtil.closeAll;
+import static network.tcp.SocketCloseUtil.closeAll;
 import static util.MyLogger.log;
 
 public class Session implements Runnable{
